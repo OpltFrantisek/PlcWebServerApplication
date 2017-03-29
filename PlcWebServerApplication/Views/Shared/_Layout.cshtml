@@ -33,19 +33,13 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="Plc">Plc</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
                 </ul>
             </div>
         </div>
     </nav>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; 2017 - PlcWebServerApplication</p>
-        </footer>
-    </div>
+   
 
     <environment names="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
@@ -67,7 +61,13 @@
         </script>
         <script src="~/js/site.min.js" asp-append-version="true"></script>
     </environment>
-
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; 2017 - PlcWebServerApplication</p>
+        </footer>
+    </div>
     @RenderSection("Scripts", required: false)
 </body>
 </html>
