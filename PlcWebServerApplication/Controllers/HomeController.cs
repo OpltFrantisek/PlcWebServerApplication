@@ -47,8 +47,7 @@ namespace PlcWebServerApplication.Controllers
             {
                 if (Plc_magazine.Exist((int)id))
                 {
-                    Plc_magazine.GetPlc((int)id, out Simatic plc);
-                    plc.Write_bite(outputs[(int)pin], (bool)value);
+                    ThreadColector.DoAction(ActionType.Write, id, pin, value, outputs);                
                 }
             }
         }
@@ -58,9 +57,7 @@ namespace PlcWebServerApplication.Controllers
             {
                 if (Plc_magazine.Exist((int)id))
                 {
-
-                    Plc_magazine.GetPlc((int)id, out Simatic plc);
-                    return plc.Read_bite(outputs[(int)pin]).ToString();
+                  return  ThreadColector.DoAction(ActionType.Read, id, pin,null,outputs).ToString();               
                 }
             }
             return "NULL";
