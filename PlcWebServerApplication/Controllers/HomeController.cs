@@ -27,7 +27,7 @@ namespace PlcWebServerApplication.Controllers
 
         public IActionResult Plc()
         {
-
+            ViewBag.OutputsCount = outputs.Length;
             var status = Plc_magazine.GetPlc(0, out Simatic plc1);
             if (status)
             {

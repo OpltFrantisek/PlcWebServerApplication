@@ -3,6 +3,10 @@ using System.Linq;
 using PLCComunicationLib.snap7;
 namespace PLCComunicationLib
 {
+    public static class ThreadHelper
+    {
+        public static object lockObject = new object();
+    }
     public class Simatic
     {
         Plc plc;
@@ -66,19 +70,33 @@ namespace PLCComunicationLib
             for (int i = 0; i < variables.Length; i++)
                 Write_double(variables[i], value[i]);
         }
+      // static List<string> request = new List<string>();
+       
         public bool Read_bite(string variable)
         {
-            while (IsOpen) { }
 
-            Open_connection();
+
+            /*   if (IsOpen)
+                   request.Add(variable);
+    pockej:
+               while (IsOpen) {
+
+               }
+               if (request.Count > 1 && request.First() != variable)
+                   goto pockej;  
+                   */
             bool result = false;
-            
+            lock (ThreadHelper.lockObject)
+            {
+                Open_connection();
+               
                 object res;
                 res = plc.Read(variable);
                 result = (bool)res;
-            
-                                 
-            Close_connection();
+                //   request.Remove(variable);
+                Close_connection();
+            }
+           
             return result;
         }
         public Dictionary<string,bool> Read_bite(string[] variable)

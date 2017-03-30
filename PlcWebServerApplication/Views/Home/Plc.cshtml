@@ -9,9 +9,7 @@
                                           "DB1.DBX0.5",
                                           "DB1.DBX0.6",
                                           "DB1.DBX0.7"};
-    List<Tuple<string, string>> element_name = new List<Tuple<string, string>>();
-    int row;
-    const int valueCell = 4;
+    List<Tuple<string, string>> element_name = new List<Tuple<string, string>>();    
 }
 <p1>Vypis vsech plc</p1>
 
@@ -29,17 +27,17 @@
     <tbody>
         @foreach (var plc in Model)
         {
-            
-           // var result = plc.Read_bite(outputs).Values.ToList();
-            for (int i = 0;i < outputs.Length;i++)
+
+            // var result = plc.Read_bite(outputs).Values.ToList();
+            for (int i = 0;i < ViewBag.OutputsCount; i++)
             {
                 <tr>
                     <th>@plc.ID</th>
                     <th>@plc.IP </th>
                     <th>Output @i</th>
-                    <th>Cekam</th>
+                    <th id="@string.Format("Value_{0}_{1}",plc.ID,i)">Cekam </th>
                     <th><a class="btn" >ON/OFF</a></th>
-                    <th><input id="@string.Format("{0}_{1}",plc.ID,i)" type="checkbox" /></th>
+                    <th><input id="@string.Format("{0}_{1}",plc.ID,i)" type="checkbox" name="ON/OFF"></th>
                 </tr>
                 element_name.Add(new Tuple<string, string>(plc.ID.ToString(), i.ToString()));
             }
@@ -50,6 +48,7 @@
     var urlWrite = "@Url.Action("Write2PLC", "Home")";
     var urlRead = "@Url.Action("ReadFromPlc", "Home")";
     var myTable = document.getElementById("myTable");
+    // Zapis dat
     @foreach(var item in element_name){
         <Text>
             $("#@string.Format("{0}_{1}",item.Item1,item.Item2)").change(function () {
@@ -61,23 +60,21 @@
                 }
              })
         </Text>
-    }                     
+    }
+
+    // Cteni dat
    setInterval(function () {
-      //  alert("kravina");  
-               // if (status != true) {
-        //  status = true;
-        $.get(urlRead + "?id=0&pin=0",
-                   function (data) {
-                       alert("Data: " + data);
-                      
-                     }
-                    )
-                  //  status = false;
-                    
-               
-               
-            },3000)
-  
+       @foreach(var item in element_name)
+       {
+           <Text>
+            $.get(urlRead + "?id=@item.Item1&pin=@item.Item2",
+                   function(data) {
+                         document.getElementById('@string.Format("Value_{0}_{1}",item.Item1, item.Item2)').innerHTML = data;
+                    }
+              )           
+            </Text>
+       }
+            },2000)       
 
 </script>
 
