@@ -1,14 +1,6 @@
 ﻿@model List<PLCComunicationLib.Simatic>
 @{
     ViewData["Title"] = "Plc";
-    string[] outputs = new string[] { "DB1.DBX0.0",
-                                          "DB1.DBX0.1",
-                                          "DB1.DBX0.2",
-                                          "DB1.DBX0.3",
-                                          "DB1.DBX0.4",
-                                          "DB1.DBX0.5",
-                                          "DB1.DBX0.6",
-                                          "DB1.DBX0.7"};
     List<Tuple<string, string>> element_name = new List<Tuple<string, string>>();    
 }
 <p1>Vypis vsech plc</p1>
@@ -48,7 +40,7 @@
     var urlWrite = "@Url.Action("Write2PLC", "Home")";
     var urlRead = "@Url.Action("ReadFromPlc", "Home")";
     var myTable = document.getElementById("myTable");
-    // Zapis dat
+    // Zapis dat do plc
     @foreach(var item in element_name){
         <Text>
             $("#@string.Format("{0}_{1}",item.Item1,item.Item2)").change(function () {
@@ -61,20 +53,19 @@
              })
         </Text>
     }
-
-    // Cteni dat
+    // Cteni dat z plc
    setInterval(function () {
        @foreach(var item in element_name)
        {
            <Text>
             $.get(urlRead + "?id=@item.Item1&pin=@item.Item2",
                    function(data) {
-                         document.getElementById('@string.Format("Value_{0}_{1}",item.Item1, item.Item2)').innerHTML = data;
+                       document.getElementById('@string.Format("Value_{0}_{1}",item.Item1, item.Item2)').innerHTML = data;                     
                     }
-              )           
+              )
             </Text>
        }
-            },2000)       
+            },2000)
 
 </script>
 

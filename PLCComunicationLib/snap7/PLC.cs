@@ -73,9 +73,7 @@ namespace PLCComunicationLib.snap7
                 PingReply result;
                 try
                 {
-
                     result = await ping.SendPingAsync(IP);
-
                 }
                 catch (PingException)
                 {

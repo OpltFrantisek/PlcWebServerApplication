@@ -8,7 +8,8 @@ namespace PLCComunicationLib
     public enum ActionType
     {
         Read =0,
-        Write = 1
+        Write = 1,
+        ReadByte
     }
     /// <summary>
     /// Tato třída slouží k serializaci vláken, protože dotazy na čtení nebo zápis z plc chodí pokaždé v jiném vlákně tak může docházet ke kolizím (například pokud čteme a zároveň zapisujeme)

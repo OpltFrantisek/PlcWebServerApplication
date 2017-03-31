@@ -19,7 +19,6 @@ namespace PlcWebServerApplication.Controllers
                                           "DB1.DBX0.6",
                                           "DB1.DBX0.7"};
 
-
         public IActionResult Index()
         {
             return View();
@@ -41,8 +40,7 @@ namespace PlcWebServerApplication.Controllers
             
         }
         public void Write2PLC(int? id, int? pin, bool? value)
-        {
-            
+        {           
             if (id != null && pin != null && value != null)
             {
                 if (Plc_magazine.Exist((int)id))
@@ -60,7 +58,15 @@ namespace PlcWebServerApplication.Controllers
                   return  ThreadColector.DoAction(ActionType.Read, id, pin,null,outputs).ToString();               
                 }
             }
-            return "NULL";
+            return "Neco se nepovedlo";
+        }
+        public string ReadByteFromPlc(int? id)
+        {
+            if (id != null)
+                if (Plc_magazine.Exist((int)id))
+                    return ThreadColector.DoAction(ActionType.ReadByte, id,null, null, outputs).ToString();
+            return "Neco se nepovedlo";
+            
         }
         public IActionResult Contact()
         {
